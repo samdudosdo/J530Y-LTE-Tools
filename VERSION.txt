@@ -1,0 +1,5 @@
+﻿J530Y LTE Tools
+Version 1.0
+Target: Samsung Galaxy J5 Pro SM-J530Y
+Android: 9
+Application ID: com.ardyan.j530ylte

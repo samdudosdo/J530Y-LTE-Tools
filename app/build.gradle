@@ -1,0 +1,29 @@
+﻿plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.ardyan.j530ylte'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.ardyan.j530ylte'
+        minSdk 28
+        targetSdk 28
+        versionCode 1
+        versionName '1.0'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
