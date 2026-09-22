@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends Activity {
 
-```
+
 private static final String TESTING_ACTIVITY =
         "com.android.settings/.Settings$TestingSettingsActivity";
 
@@ -65,7 +65,7 @@ private void openTestingMenu() {
                 "am start -n 'com.android.settings/.Settings$TestingSettingsActivity'";
 
         Process process = Runtime.getRuntime().exec(
-                new String[] {
+                new String[]{
                         "su",
                         "-c",
                         command
@@ -112,7 +112,7 @@ private void openTestingMenu() {
 
             String message = output.toString().trim();
 
-            if (message.length() == 0) {
+            if (message.isEmpty()) {
                 message = "Command failed. Exit code: " + exitCode;
             }
 
@@ -132,6 +132,6 @@ private void openTestingMenu() {
         ).show();
     }
 }
-```
+
 
 }
