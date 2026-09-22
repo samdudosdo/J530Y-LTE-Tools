@@ -23,9 +23,15 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Remove UTF-8 BOM from Gradle files
+      - name: Remove UTF-8 BOM
         run: |
-          find . -type f \( -name "*.gradle" -o -name "*.gradle.kts" \) -print0 |
+          find . -type f \( \
+            -name "*.gradle" \
+            -o -name "*.gradle.kts" \
+            -o -name "*.java" \
+            -o -name "*.xml" \
+            -o -name "*.properties" \
+          \) -print0 |
           while IFS= read -r -d '' file; do
             sed -i '1s/^\xEF\xBB\xBF//' "$file"
             echo "Cleaned: $file"
