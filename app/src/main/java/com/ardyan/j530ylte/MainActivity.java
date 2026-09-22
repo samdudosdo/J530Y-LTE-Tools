@@ -56,55 +56,66 @@ public class MainActivity extends Activity {
         setContentView(layout);
     }
 
-    private void openTestingMenu() {
+ ```java
+private void openTestingMenu() {
 
-        try {
+    try {
 
-            Process process = Runtime.getRuntime().exec(
-                    new String[]{
-                            "su",
-                            "-c",
-                            "am start -n " + TESTING_ACTIVITY
-                    }
-            );
+        String command =
+                "am start -n 'com.android.settings/.Settings$TestingSettingsActivity'";
 
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream())
-            );
+        Process process = Runtime.getRuntime().exec(
+                new String[]{
+                        "su",
+                        "-c",
+                        command
+                }
+        );
 
-            StringBuilder output = new StringBuilder();
-            String line;
+        BufferedReader stdout = new BufferedReader(
+                new InputStreamReader(process.getInputStream())
+        );
 
-            while ((line = reader.readLine()) != null) {
-                output.append(line).append("\n");
-            }
+        BufferedReader stderr = new BufferedReader(
+                new InputStreamReader(process.getErrorStream())
+        );
 
-            process.waitFor();
+        StringBuilder output = new StringBuilder();
+        String line;
 
-            if (process.exitValue() == 0) {
+        while ((line = stdout.readLine()) != null) {
+            output.append(line).append("\n");
+        }
 
-                Toast.makeText(
-                        this,
-                        "Phone Information opened",
-                        Toast.LENGTH_SHORT
-                ).show();
+        while ((line = stderr.readLine()) != null) {
+            output.append(line).append("\n");
+        }
 
-            } else {
+        int exitCode = process.waitFor();
 
-                Toast.makeText(
-                        this,
-                        "Failed. Please allow root access.",
-                        Toast.LENGTH_LONG
-                ).show();
-            }
-
-        } catch (Exception e) {
+        if (exitCode == 0) {
 
             Toast.makeText(
                     this,
-                    "Error: " + e.getMessage(),
+                    "Phone Information opened",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+        } else {
+
+            Toast.makeText(
+                    this,
+                    "Failed:\n" + output.toString(),
                     Toast.LENGTH_LONG
             ).show();
         }
+
+    } catch (Exception e) {
+
+        Toast.makeText(
+                this,
+                "Error: " + e.getMessage(),
+                Toast.LENGTH_LONG
+        ).show();
     }
 }
